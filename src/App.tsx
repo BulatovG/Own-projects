@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from './app/store';
+import { setCity } from './features/weather/weatherSlice';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+    const dispatch = useDispatch();
+    const city = useSelector((state: RootState) => state.weather.city);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <div className="container py-5">
+            <div className="card shadow-sm">
+                <div className="card-body">
+                    <h1 className="h4 mb-3">Weather App</h1>
+
+                    <input
+                        className="form-control mb-3"
+                        value={city}
+                        onChange={(e) => dispatch(setCity(e.target.value))}
+                        placeholder="Enter city"
+                    />
+
+                    <div className="text-muted">
+                        Current city in Redux: <b>{city}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
-
-export default App
